@@ -44,3 +44,4 @@ O objetivo é demosntrar o processo de inicialização dos periféricos e exibir
 Para escrever no display, foi utilizada a biblioteca LVGL , que facilita a criação de desenhos no display
 
 
+## Alterando para CPP
