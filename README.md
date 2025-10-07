@@ -1,0 +1,1 @@
+# TreinamentoESP32_Medidor
