@@ -36,12 +36,14 @@ O sensor de pressão e o display OLED estão ligados em portas I2C diferentes do
   - Conectado ao SMP3011
 
 
-## Software
+## Software C/C++
 
-Software escrito em C em um único arquivo usando o ESP-IDF 5.4.2.  
-Utilizada a IDE do VSCode  
-O objetivo é demosntrar o processo de inicialização dos periféricos e exibir no display a leitura de tempreatura e pressão.  
-Para escrever no display, foi utilizada a biblioteca LVGL , que facilita a criação de desenhos no display
+Esta versão utliza de C e C++ em sua implementação.  
+O main foi alterado de **man.c** para **main.cpp**.   
+A troca de **.c** para **.cpp** indica para o compilador que aquele arquivo é um código em C++.  
+  
+A rotina de inicialização do display foi separada em um arquivo C. pois o componente do framework IDF que inicializa o display e configura o LVGL não tem suporte a C++.  
+O sendor foi separado no arquivo **cSMP3011.cpp** e foi criada uma classe que inicializa e controla o sensor.  
 
+No **main.cpp** fica a chamada para inicializar o display, o sensor e para manter o display atualizado.
 
-## Alterando para CPP
