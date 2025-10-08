@@ -1,6 +1,7 @@
 extern "C" 
 {
     #include "driver/i2c_master.h"
+    #include "driver/gpio.h"
     #include <stdio.h>
     #include "esp_err.h"
     #include "esp_log.h"
@@ -14,6 +15,15 @@ extern "C"
     #include "displaySSD1306.h"
     #include "cSMP3011.h"
 }
+
+
+#define LED_PIN     gpio_num_t::GPIO_NUM_16  
+
+/*
+    PROTOTYPES
+*/
+void sensorTask(void *pvParameters);
+void statusLedTask(void *pvParameters);
 
 /*
     VARIABLES
@@ -32,10 +42,18 @@ cSMP3011    SMP3011;
 extern "C" void app_main() 
 {
     
+
+    //------------------------------------------------
+    // Status LED
+    //------------------------------------------------
+    gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
+    xTaskCreate(statusLedTask, "statusLedTask", 4096, NULL, 1, NULL);
+
     //------------------------------------------------
     // SMP3011 Initialization
     //------------------------------------------------    
     SMP3011.init();
+    xTaskCreate(sensorTask, "sensorTask", 4096, NULL, 1, NULL);
 
     //------------------------------------------------
     // LVGL
@@ -65,12 +83,31 @@ extern "C" void app_main()
 
     while(1)
     {
-        SMP3011.poll(); 
-        vTaskDelay(100/portTICK_PERIOD_MS);
-
         lvgl_port_lock(portMAX_DELAY);        
         lv_label_set_text_fmt(lblPressure, "P: %5.1f kPa", SMP3011.getPressure());    
         lv_label_set_text_fmt(lblTemperature, "T: %3.0f oC", SMP3011.getTemperature());    
         lvgl_port_unlock();
+        vTaskDelay(100/portTICK_PERIOD_MS);
     }    
 }
+
+
+void sensorTask(void *pvParameters) 
+{
+    while(1)
+    {
+        SMP3011.poll(); 
+        vTaskDelay(100/portTICK_PERIOD_MS);
+    }
+}
+
+void statusLedTask(void *pvParameters) 
+{
+    while(1)
+    {
+        gpio_set_level(LED_PIN, 1);
+        vTaskDelay(250/portTICK_PERIOD_MS);
+        gpio_set_level(LED_PIN, 0);
+        vTaskDelay(250/portTICK_PERIOD_MS);
+    }
+}   

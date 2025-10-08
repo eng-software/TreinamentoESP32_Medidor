@@ -35,10 +35,12 @@ O sensor de pressão e o display OLED estão ligados em portas I2C diferentes do
   - Frequencia: 400KHz
   - Conectado ao SMP3011
 
+* Led de Status
+  - Led azul para indicar status no GPIO16 
 
 ## Software C/C++
 
-Esta versão utliza de C e C++ em sua implementação.  
+Esta versão além de utlizar C e C++ em sua implementação, utiliza o recurso do FreeRTOS
 O main foi alterado de **man.c** para **main.cpp**.   
 A troca de **.c** para **.cpp** indica para o compilador que aquele arquivo é um código em C++.  
   
@@ -46,4 +48,7 @@ A rotina de inicialização do display foi separada em um arquivo C. pois o comp
 O sendor foi separado no arquivo **cSMP3011.cpp** e foi criada uma classe que inicializa e controla o sensor.  
 
 No **main.cpp** fica a chamada para inicializar o display, o sensor e para manter o display atualizado.
+
+O polling do sensor SMP3011 agora é uma task do FreeRTOS, deixando o while do main responsável por atualizar o display e a task de ler o sensor.  
+Outra task foi adicionada apenas para fazer o LED piscar, indicando que outras tarefas podem ser executadas "em paralelo".
 
