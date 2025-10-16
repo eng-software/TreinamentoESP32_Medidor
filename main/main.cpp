@@ -6,16 +6,14 @@ extern "C"
     #include "esp_err.h"
     #include "esp_log.h"
     #include "freertos/FreeRTOS.h"
-    #include "freertos/task.h"
-    #include "esp_lcd_panel_io.h"
-    #include "esp_lcd_panel_ops.h"
-    #include "esp_lcd_panel_vendor.h"
+    #include "freertos/task.h"    
     #include "esp_lvgl_port.h"
     #include "lvgl.h"
-    #include "displaySSD1306.h"
-    #include "cSMP3011.h"
+    #include "displaySSD1306.h"    
 }
 
+#include "cSMP3011.h"
+#include "CGlobalResources.h"
 
 #define LED_PIN     gpio_num_t::GPIO_NUM_16  
 
@@ -41,8 +39,6 @@ cSMP3011    SMP3011;
  */
 extern "C" void app_main() 
 {
-    
-
     //------------------------------------------------
     // Status LED
     //------------------------------------------------
@@ -50,8 +46,13 @@ extern "C" void app_main()
     xTaskCreate(statusLedTask, "statusLedTask", 4096, NULL, 1, NULL);
 
     //------------------------------------------------
-    // SMP3011 Initialization
+    // I2C Initialization
     //------------------------------------------------    
+    I2C.init();
+
+    //------------------------------------------------
+    // SMP3011 Initialization
+    //------------------------------------------------ 
     SMP3011.init();
     xTaskCreate(sensorTask, "sensorTask", 4096, NULL, 1, NULL);
 
@@ -72,7 +73,6 @@ extern "C" void app_main()
     lv_obj_align(lblPressure, LV_ALIGN_TOP_MID, 0, 0);    
     lv_obj_set_y(lblPressure, 0);
 
-
     lv_obj_t *lblTemperature = lv_label_create(scr);    
     lv_label_set_text_fmt(lblTemperature, "T: %3.0f", SMP3011.getTemperature());    
     lv_obj_set_width(lblTemperature, LCD_H_RES);
@@ -90,7 +90,6 @@ extern "C" void app_main()
         vTaskDelay(100/portTICK_PERIOD_MS);
     }    
 }
-
 
 void sensorTask(void *pvParameters) 
 {
