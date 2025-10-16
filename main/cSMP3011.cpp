@@ -38,7 +38,7 @@ void cSMP3011::poll()
 
     if((PressSensorBuffer[0]&0x20) == 0)   //Bit5 do status está em 0 significa que a conversão está pronta
     {              
-        printf("Raw Data: %02X %02X %02X %02X %02X %02X\n", PressSensorBuffer[0], PressSensorBuffer[1], PressSensorBuffer[2], PressSensorBuffer[3], PressSensorBuffer[4], PressSensorBuffer[5]);
+        //printf("Raw Data: %02X %02X %02X %02X %02X %02X\n", PressSensorBuffer[0], PressSensorBuffer[1], PressSensorBuffer[2], PressSensorBuffer[3], PressSensorBuffer[4], PressSensorBuffer[5]);
         
         uint8_t PressSensorCommand = 0xAC;  //Comando para iniciar conversor ADC
         I2C.transmit(SMP3011_ADDRESS, (uint8_t *)(&PressSensorCommand), 1); 
@@ -53,7 +53,7 @@ void cSMP3011::poll()
         temperaturePercentage /= 65535.0f;        
         temperaturePercentage = ((150.0f - (-40.0f))*temperaturePercentage) - 40.0f;
 
-        printf("Pressure: %f  Temperature: %f \n", pressurePercentage, temperaturePercentage);
+        //printf("Pressure: %f  Temperature: %f \n", pressurePercentage, temperaturePercentage);
         
         pressure = pressurePercentage/1000.0f;
         temperature = temperaturePercentage;
