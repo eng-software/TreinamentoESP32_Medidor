@@ -46,10 +46,9 @@ void CI2C::init()
 }
 
 bool CI2C::transmit(uint8_t address, uint8_t *buffer, uint32_t length)
-{
-    //I2C for SMP3011 Pressure Sensor configuration and handler for sensor
-    i2c_master_dev_handle_t i2c_smp3011_handle = NULL;
-    i2c_device_config_t i2c_smp3011_config = 
+{    
+    i2c_master_dev_handle_t i2c_handle = NULL;
+    i2c_device_config_t i2c_config = 
     {
         .dev_addr_length  = I2C_ADDR_BIT_LEN_7,         /*!< Select the address length of the slave device. */
         .device_address  = address,                     /*!< I2C device raw address. (The 7/10 bit address without read/write bit) */
@@ -61,18 +60,17 @@ bool CI2C::transmit(uint8_t address, uint8_t *buffer, uint32_t length)
         }
     };
 
-    i2c_master_bus_add_device(i2c_sensor_bus, &i2c_smp3011_config, &i2c_smp3011_handle);       
-    bool ret = i2c_master_transmit(i2c_smp3011_handle, buffer, length, 20) == ESP_OK;
-    i2c_master_bus_rm_device(i2c_smp3011_handle);
+    i2c_master_bus_add_device(i2c_sensor_bus, &i2c_config, &i2c_handle);       
+    bool ret = i2c_master_transmit(i2c_handle, buffer, length, 20) == ESP_OK;
+    i2c_master_bus_rm_device(i2c_handle);
     
     return ret;
 }
 
 bool CI2C::receive(uint8_t address, uint8_t *buffer, uint32_t length)
-{
-    //I2C for SMP3011 Pressure Sensor configuration and handler for sensor
-    i2c_master_dev_handle_t i2c_smp3011_handle = NULL;
-    i2c_device_config_t i2c_smp3011_config = 
+{    
+    i2c_master_dev_handle_t i2c_handle = NULL;
+    i2c_device_config_t i2c_config = 
     {
         .dev_addr_length  = I2C_ADDR_BIT_LEN_7,         /*!< Select the address length of the slave device. */
         .device_address  = address,                     /*!< I2C device raw address. (The 7/10 bit address without read/write bit) */
@@ -84,9 +82,9 @@ bool CI2C::receive(uint8_t address, uint8_t *buffer, uint32_t length)
         }
     };
 
-    i2c_master_bus_add_device(i2c_sensor_bus, &i2c_smp3011_config, &i2c_smp3011_handle);       
-    bool ret = i2c_master_receive(i2c_smp3011_handle, buffer, length, 20) == ESP_OK;
-    i2c_master_bus_rm_device(i2c_smp3011_handle);
+    i2c_master_bus_add_device(i2c_sensor_bus, &i2c_config, &i2c_handle);       
+    bool ret = i2c_master_receive(i2c_handle, buffer, length, 20) == ESP_OK;
+    i2c_master_bus_rm_device(i2c_handle);
 
     return ret;
 }
