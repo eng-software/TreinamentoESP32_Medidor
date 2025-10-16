@@ -21,7 +21,9 @@ extern "C"
 /*
     PROTOTYPES
 */
-void sensorTask(void *pvParameters);
+void sensorSMP3011Task(void *pvParameters);
+void sensorBMP280Task(void *pvParameters);
+
 void statusLedTask(void *pvParameters);
 
 /*
@@ -29,7 +31,7 @@ void statusLedTask(void *pvParameters);
 */
 cSMP3011    SMP3011;
 CBMP280     BMP280;
-
+SemaphoreHandle_t sensorMutex;
 
 /**
  * @brief Entry point of the application.
@@ -58,7 +60,10 @@ extern "C" void app_main()
     //------------------------------------------------ 
     SMP3011.init();
     BMP280.init();
-    xTaskCreate(sensorTask, "sensorTask", 4096, NULL, 1, NULL);
+    sensorMutex = xSemaphoreCreateMutex();
+    xTaskCreate(sensorSMP3011Task, "sensorSMP3011Task", 4096, NULL, 1, NULL);
+    xTaskCreate(sensorBMP280Task, "sensorBMP280Task", 4096, NULL, 1, NULL);
+
 
     //------------------------------------------------
     // LVGL
@@ -110,13 +115,25 @@ extern "C" void app_main()
     }    
 }
 
-void sensorTask(void *pvParameters) 
+void sensorSMP3011Task(void *pvParameters) 
 {
     while(1)
     {
+        //xSemaphoreTake( sensorMutex, portMAX_DELAY );
         SMP3011.poll(); 
+        //xSemaphoreGive( sensorMutex );
+        vTaskDelay(1/portTICK_PERIOD_MS);
+    }
+}
+
+void sensorBMP280Task(void *pvParameters) 
+{
+    while(1)
+    {
+        //xSemaphoreTake( sensorMutex, portMAX_DELAY );
         BMP280.poll();
-        vTaskDelay(100/portTICK_PERIOD_MS);
+        //xSemaphoreGive( sensorMutex );
+        vTaskDelay(1/portTICK_PERIOD_MS);
     }
 }
 
