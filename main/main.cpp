@@ -15,6 +15,9 @@ extern "C"
 #include "cSMP3011.h"
 #include "CGlobalResources.h"
 
+#define BAR     0.01f
+#define PSI     0.145038f
+
 #define LED_PIN     gpio_num_t::GPIO_NUM_16  
 
 /*
@@ -72,25 +75,32 @@ extern "C" void app_main()
     lvgl_port_lock(portMAX_DELAY);
     lv_obj_t *scr = lv_disp_get_scr_act(NULL);
         
-    lv_obj_t *lblPressure = lv_label_create(scr);    
-    lv_label_set_text_fmt(lblPressure, "P: %5.1f", SMP3011.getPressure());    
-    lv_obj_set_width(lblPressure, LCD_H_RES);
-    lv_obj_align(lblPressure, LV_ALIGN_TOP_MID, 0, 0);    
-    lv_obj_set_y(lblPressure, 0);
+    lv_obj_t *lblPressureBAR = lv_label_create(scr);    
+    lv_label_set_text_fmt(lblPressureBAR, "Bar: %5.1f", SMP3011.getPressure() * BAR);    
+    lv_obj_set_width(lblPressureBAR, LCD_H_RES);
+    lv_obj_align(lblPressureBAR, LV_ALIGN_TOP_MID, 0, 0);    
+    lv_obj_set_y(lblPressureBAR, 0);
+
+    lv_obj_t *lblPressurePSI = lv_label_create(scr);    
+    lv_label_set_text_fmt(lblPressurePSI, "PSI: %5.1f", SMP3011.getPressure() * PSI);    
+    lv_obj_set_width(lblPressurePSI, LCD_H_RES);
+    lv_obj_align(lblPressurePSI, LV_ALIGN_TOP_MID, 0, 0);    
+    lv_obj_set_y(lblPressurePSI, 16);
 
     lv_obj_t *lblTemperature = lv_label_create(scr);    
     lv_label_set_text_fmt(lblTemperature, "T: %3.0f", SMP3011.getTemperature());    
     lv_obj_set_width(lblTemperature, LCD_H_RES);
     lv_obj_align(lblTemperature, LV_ALIGN_TOP_MID, 0, 0);    
-    lv_obj_set_y(lblTemperature, 16);
+    lv_obj_set_y(lblTemperature, 32);
 
     lvgl_port_unlock();
 
     while(1)
     {
         lvgl_port_lock(portMAX_DELAY);        
-        lv_label_set_text_fmt(lblPressure     , "P1: %5.1f kPa", SMP3011.getPressure());    
-        lv_label_set_text_fmt(lblTemperature  , "T1: %3.0f oC" , SMP3011.getTemperature());     
+        lv_label_set_text_fmt(lblPressureBAR     , "BAR: %5.1f", SMP3011.getPressure() * BAR);   
+        lv_label_set_text_fmt(lblPressurePSI     , "PSI: %5.1f", SMP3011.getPressure() * PSI);  
+        lv_label_set_text_fmt(lblTemperature  , "T: %3.0f oC" , SMP3011.getTemperature());     
         lvgl_port_unlock();
         vTaskDelay(100/portTICK_PERIOD_MS);
     }    
