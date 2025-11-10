@@ -72,6 +72,7 @@ extern "C" void app_main()
 
     if (wifi_ok) {
         ESP_LOGI("MAIN", "✅ Wi-Fi conectado com sucesso!");
+        init_filesystem();
         start_webserver(); // servidor HTTP ativo
     } else {
         ESP_LOGE("MAIN", "❌ Falha na conexão Wi-Fi.");
@@ -125,7 +126,7 @@ void init_filesystem(void)
 
     esp_vfs_spiffs_conf_t conf = {
       .base_path = "/spiffs",
-      .partition_label = NULL,
+      .partition_label = "spiffs",
       .max_files = 5,
       .format_if_mount_failed = true
     };
