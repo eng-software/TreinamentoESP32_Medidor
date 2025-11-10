@@ -3,6 +3,10 @@
 
 #include "esp_http_server.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * @brief Inicializa o servidor HTTP.
  * 
@@ -16,5 +20,9 @@ httpd_handle_t start_webserver(void);
  * @param server_handle Handle do servidor.
  */
 void stop_webserver(httpd_handle_t server_handle);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

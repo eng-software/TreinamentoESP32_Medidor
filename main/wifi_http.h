@@ -3,7 +3,11 @@
 
 #include <stdbool.h>
 
-// Defina suas credenciais de Wi-Fi aqui
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #define WIFI_SSID      "Nice 2.4G"
 #define WIFI_PASSWORD  "bolinho12"
 #define HTTP_SERVER_URL "http://192.168.1.13/api/data"
@@ -24,5 +28,9 @@ bool wifi_connect(int timeout_ms);
  * @return true se o envio for bem-sucedido, false caso contrário.
  */
 bool http_post_data(float pressure, float temperature);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

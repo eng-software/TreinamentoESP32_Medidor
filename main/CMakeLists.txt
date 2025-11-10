@@ -10,5 +10,18 @@ idf_component_register(
     INCLUDE_DIRS 
         "."
     REQUIRES 
-        "esp_wifi" "esp_event" "nvs_flash" "esp_http_client" "cjson" "lwip" "esp_system" "freertos" "driver" "esp_lcd" "esp_lvgl_port" "esp_http_server" "fatfs" "spiffs"
+          esp_wifi
+            esp_event
+            nvs_flash
+            esp_http_client
+            esp_http_server
+            cjson
+            lwip
+            esp_system
+            freertos
+            driver
+            esp_lcd
+            esp_lvgl_port
+            fatfs
+            spiffs
 )
