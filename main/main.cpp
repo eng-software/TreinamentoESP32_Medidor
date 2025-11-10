@@ -10,6 +10,12 @@ extern "C"
     #include "esp_lvgl_port.h"
     #include "lvgl.h"
     #include "displaySSD1306.h"    
+    #include "wifi_http.h"
+    #include "http_server.h"
+    #include "esp_vfs_fat.h"
+    #include "driver/sdmmc_host.h"
+    #include "sdmmc_cmd.h"
+    #include "esp_spiffs.h"  
 }
 
 #include "cSMP3011.h"
@@ -17,30 +23,23 @@ extern "C"
 
 #define BAR     0.01f
 #define PSI     0.145038f
+#define LED_PIN gpio_num_t::GPIO_NUM_16  
 
-#define LED_PIN     gpio_num_t::GPIO_NUM_16  
-
-/*
-    PROTOTYPES
-*/
+//-------------------
+// PROTOTYPES
+//-------------------
 void sensorSMP3011Task(void *pvParameters);
-
 void statusLedTask(void *pvParameters);
+void init_filesystem(void);
 
-/*
-    VARIABLES
-*/
-cSMP3011    SMP3011;
+//-------------------
+// VARIABLES
+//-------------------
+cSMP3011 SMP3011;
 SemaphoreHandle_t sensorMutex;
 
 /**
- * @brief Entry point of the application.
- *
- * This function configures the I2C master mode and scans the bus for devices.
- * The bus is configured to use GPIO 5 for SDA and GPIO 4 for SCL, and the
- * clock speed is set to 100000 Hz. The scan starts from address 1 and goes
- * to address 126 (inclusive). If a device is found at an address, a message
- * is printed to the console with the address of the device.
+ * @brief Entry point
  */
 extern "C" void app_main() 
 {
@@ -51,26 +50,35 @@ extern "C" void app_main()
     xTaskCreate(statusLedTask, "statusLedTask", 4096, NULL, 1, NULL);
 
     //------------------------------------------------
-    // I2C Initialization
+    // I2C + Sensor
     //------------------------------------------------    
     I2C.init();
-
-    //------------------------------------------------
-    // SMP3011 Initialization
-    //------------------------------------------------ 
     SMP3011.init();
     
     sensorMutex = xSemaphoreCreateMutex();
     xTaskCreate(sensorSMP3011Task, "sensorSMP3011Task", 4096, NULL, 1, NULL);
 
-
     //------------------------------------------------
-    // LVGL
+    // LVGL Display
     //------------------------------------------------
     displayInit();
     
     //------------------------------------------------
-    // Create a Label
+    // Wi-Fi Connection
+    //------------------------------------------------
+    display_loading_start();
+    bool wifi_ok = wifi_connect(10000); // timeout 10 segundos
+    display_loading_stop();
+
+    if (wifi_ok) {
+        ESP_LOGI("MAIN", "✅ Wi-Fi conectado com sucesso!");
+        start_webserver(); // servidor HTTP ativo
+    } else {
+        ESP_LOGE("MAIN", "❌ Falha na conexão Wi-Fi.");
+    }
+
+    //------------------------------------------------
+    // Labels no display
     //------------------------------------------------
     lvgl_port_lock(portMAX_DELAY);
     lv_obj_t *scr = lv_disp_get_scr_act(NULL);
@@ -92,38 +100,75 @@ extern "C" void app_main()
     lv_obj_set_width(lblTemperature, LCD_H_RES);
     lv_obj_align(lblTemperature, LV_ALIGN_TOP_MID, 0, 0);    
     lv_obj_set_y(lblTemperature, 32);
-
     lvgl_port_unlock();
 
-    while(1)
+    //------------------------------------------------
+    // Loop principal
+    //------------------------------------------------
+    while (1)
     {
         lvgl_port_lock(portMAX_DELAY);        
-        lv_label_set_text_fmt(lblPressureBAR     , "BAR: %5.1f", SMP3011.getPressure() * BAR);   
-        lv_label_set_text_fmt(lblPressurePSI     , "PSI: %5.1f", SMP3011.getPressure() * PSI);  
-        lv_label_set_text_fmt(lblTemperature  , "T: %3.0f oC" , SMP3011.getTemperature());     
+        lv_label_set_text_fmt(lblPressureBAR, "BAR: %5.1f", SMP3011.getPressure() * BAR);   
+        lv_label_set_text_fmt(lblPressurePSI, "PSI: %5.1f", SMP3011.getPressure() * PSI);  
+        lv_label_set_text_fmt(lblTemperature, "T: %3.0f °C", SMP3011.getTemperature());     
         lvgl_port_unlock();
-        vTaskDelay(100/portTICK_PERIOD_MS);
+        vTaskDelay(100 / portTICK_PERIOD_MS);
     }    
 }
 
+//------------------------------------------------
+// Filesystem Init
+//------------------------------------------------
+void init_filesystem(void)
+{
+    ESP_LOGI("FS", "Inicializando SPIFFS");
+
+    esp_vfs_spiffs_conf_t conf = {
+      .base_path = "/spiffs",
+      .partition_label = NULL,
+      .max_files = 5,
+      .format_if_mount_failed = true
+    };
+
+    esp_err_t ret = esp_vfs_spiffs_register(&conf);
+
+    if (ret != ESP_OK) {
+        if (ret == ESP_FAIL)
+            ESP_LOGE("FS", "Falha ao montar/formatar SPIFFS");
+        else if (ret == ESP_ERR_NOT_FOUND)
+            ESP_LOGE("FS", "Partição SPIFFS não encontrada");
+        else
+            ESP_LOGE("FS", "Erro SPIFFS: %s", esp_err_to_name(ret));
+        return;
+    }
+
+    size_t total = 0, used = 0;
+    ret = esp_spiffs_info(conf.partition_label, &total, &used);
+    if (ret == ESP_OK)
+        ESP_LOGI("FS", "SPIFFS: total=%d, usado=%d", total, used);
+    else
+        ESP_LOGE("FS", "Erro ao obter info SPIFFS (%s)", esp_err_to_name(ret));
+}
+
+//------------------------------------------------
+// Tasks
+//------------------------------------------------
 void sensorSMP3011Task(void *pvParameters) 
 {
-    while(1)
+    while (1)
     {
-        //xSemaphoreTake( sensorMutex, portMAX_DELAY );
         SMP3011.poll(); 
-        //xSemaphoreGive( sensorMutex );
-        vTaskDelay(1/portTICK_PERIOD_MS);
+        vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
 
 void statusLedTask(void *pvParameters) 
 {
-    while(1)
+    while (1)
     {
         gpio_set_level(LED_PIN, 1);
-        vTaskDelay(250/portTICK_PERIOD_MS);
+        vTaskDelay(250 / portTICK_PERIOD_MS);
         gpio_set_level(LED_PIN, 0);
-        vTaskDelay(250/portTICK_PERIOD_MS);
+        vTaskDelay(250 / portTICK_PERIOD_MS);
     }
-}   
+}

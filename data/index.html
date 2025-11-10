@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medidor de Pneu ESP32</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f9; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; }
+        h1 { color: #333; }
+        .data-box { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .label { font-size: 1.2em; color: #555; }
+        .value { font-size: 2.5em; font-weight: bold; color: #007bff; }
+        .temp-value { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Monitor de Pneu</h1>
+        
+        <div class="data-box">
+            <div class="label">Pressão (BAR)</div>
+            <div id="pressure-bar" class="value">--</div>
+        </div>
+
+        <div class="data-box">
+            <div class="label">Pressão (PSI)</div>
+            <div id="pressure-psi" class="value">--</div>
+        </div>
+
+        <div class="data-box">
+            <div class="label">Temperatura (°C)</div>
+            <div id="temperature" class="value temp-value">--</div>
+        </div>
+    </div>
+
+    <script>
+        function fetchData() {
+            fetch('/api/data')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('pressure-bar').textContent = data.pressure_bar.toFixed(2);
+                    document.getElementById('pressure-psi').textContent = data.pressure_psi.toFixed(2);
+                    document.getElementById('temperature').textContent = data.temperature.toFixed(1) + " °C";
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar dados:', error);
+                    document.getElementById('pressure-bar').textContent = 'ERRO';
+                    document.getElementById('pressure-psi').textContent = 'ERRO';
+                    document.getElementById('temperature').textContent = 'ERRO';
+                });
+        }
+
+        // Busca os dados a cada 2 segundos
+        setInterval(fetchData, 2000);
+        // Busca os dados na inicialização
+        fetchData();
+    </script>
+</body>
+</html>

@@ -8,5 +8,7 @@
 #define LCD_V_RES              64
 
 void displayInit();
+void display_loading_start();
+void display_loading_stop();
 
 #endif

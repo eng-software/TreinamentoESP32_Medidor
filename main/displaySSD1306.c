@@ -11,6 +11,34 @@
 #include "lvgl.h"
 #include "displaySSD1306.h"
 
+static lv_obj_t *loading_label = NULL;
+
+void display_loading_start()
+{
+    lvgl_port_lock(portMAX_DELAY);
+    lv_obj_clean(lv_disp_get_scr_act(NULL)); // Limpa a tela
+    
+    loading_label = lv_label_create(lv_disp_get_scr_act(NULL));
+    lv_label_set_text(loading_label, "Conectando...");
+    lv_obj_align(loading_label, LV_ALIGN_CENTER, 0, 0);
+    
+    lv_obj_t *spinner = lv_spinner_create(lv_disp_get_scr_act(NULL), 1000, 60);
+    lv_obj_set_size(spinner, 40, 40);
+    lv_obj_align(spinner, LV_ALIGN_CENTER, 0, 20);
+    
+    lvgl_port_unlock();
+}
+
+void display_loading_stop()
+{
+    lvgl_port_lock(portMAX_DELAY);
+    if (loading_label != NULL) {
+        lv_obj_clean(lv_disp_get_scr_act(NULL)); 
+        loading_label = NULL;
+    }
+    lvgl_port_unlock();
+}
+
 static const char *TAG = "SSD1306";
 
 //I2C Port Configuration for display

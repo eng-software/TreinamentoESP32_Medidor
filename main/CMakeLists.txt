@@ -5,6 +5,10 @@ idf_component_register(
         "cSMP3011.cpp" 
         "displaySSD1306.c" 
         "main.cpp"
+        "wifi_http.cpp"
+        "http_server.cpp"
     INCLUDE_DIRS 
         "."
+    REQUIRES 
+        "esp_wifi" "esp_event" "nvs_flash" "esp_http_client" "cjson" "lwip" "esp_system" "freertos" "driver" "esp_lcd" "esp_lvgl_port" "esp_http_server" "fatfs" "spiffs"
 )
