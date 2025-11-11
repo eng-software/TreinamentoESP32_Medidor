@@ -37,6 +37,7 @@ extern "C" {
     {
         char filepath[256];
         const char *uri = req->uri;
+
         
         // 1. Construir o caminho completo do arquivo no SPIFFS
         // Se a URI for "/", servimos "/index.html"
@@ -101,7 +102,7 @@ extern "C" {
         {
             // Manipulador curinga para servir todos os arquivos
             httpd_uri_t uri_static = {
-                .uri = "/*", // Curinga para todas as URIs
+                .uri = "/index.htm", // Curinga para todas as URIs
                 .method = HTTP_GET,
                 .handler = static_file_handler,
                 .user_ctx = NULL
@@ -109,6 +110,22 @@ extern "C" {
             httpd_register_uri_handler(server, &uri_static );
 
             ESP_LOGI(TAG, "Servidor HTTP iniciado na porta %d", config.server_port);
+
+            
+            ESP_LOGE(TAG, "Listando arquivos no diretório: %s", BASE_PATH);
+
+                    DIR* dir = opendir(BASE_PATH);
+                    if (dir) {
+                        struct dirent* entry;
+                        while ((entry = readdir(dir)) != NULL) {
+                            if (entry->d_type == DT_DIR) {
+                                ESP_LOGE(TAG, "  DIR: %s", entry->d_name);
+                            } else {
+                                ESP_LOGE(TAG, "  FILE: %s", entry->d_name);
+                           }
+                        }
+                    }
+                    
             return server;
         }
 
