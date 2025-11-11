@@ -2,6 +2,16 @@ O prototipo do projeto está quase no final, agora ele está conseguindo integra
 
 ![alt text](funcionamento.png)
 
+![alt text](aplicação.png)
+
 e com /api/data, conseguimos ver o valor de json gerado:
 
 ![alt text](json.png)
+
+Implementação da logo no momento em que está conectando o wifi:
+
+![alt text](conectnado.png)
+
+Conexão Wifi, HTTP e Spiffs:
+
+![alt text](integração.png)

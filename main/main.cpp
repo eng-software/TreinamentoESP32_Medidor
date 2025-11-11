@@ -44,12 +44,6 @@ SemaphoreHandle_t sensorMutex;
 extern "C" void app_main() 
 {
     //------------------------------------------------
-    // Status LED
-    //------------------------------------------------
-    gpio_set_direction(LED_PIN, GPIO_MODE_OUTPUT);
-    xTaskCreate(statusLedTask, "statusLedTask", 4096, NULL, 1, NULL);
-
-    //------------------------------------------------
     // I2C + Sensor
     //------------------------------------------------    
     I2C.init();
@@ -160,16 +154,5 @@ void sensorSMP3011Task(void *pvParameters)
     {
         SMP3011.poll(); 
         vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
-}
-
-void statusLedTask(void *pvParameters) 
-{
-    while (1)
-    {
-        gpio_set_level(LED_PIN, 1);
-        vTaskDelay(250 / portTICK_PERIOD_MS);
-        gpio_set_level(LED_PIN, 0);
-        vTaskDelay(250 / portTICK_PERIOD_MS);
     }
 }

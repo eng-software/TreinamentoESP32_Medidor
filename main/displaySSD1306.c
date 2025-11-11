@@ -10,21 +10,28 @@
 #include "esp_lvgl_port.h"
 #include "lvgl.h"
 #include "displaySSD1306.h"
+#include "logo.c"
 
 static lv_obj_t *loading_label = NULL;
 
 void display_loading_start()
 {
     lvgl_port_lock(portMAX_DELAY);
-    lv_obj_clean(lv_disp_get_scr_act(NULL)); // Limpa a tela
-    
+    lv_obj_clean(lv_disp_get_scr_act(NULL)); 
+    lv_obj_t *scr = lv_disp_get_scr_act(NULL);
+
+    lv_obj_t *img_logo = lv_img_create(scr);
+    lv_img_set_src(img_logo, &logo);   
+    lv_img_set_zoom(img_logo, 160);    
+    lv_obj_align(img_logo, LV_ALIGN_CENTER, 0, -10);
+
     loading_label = lv_label_create(lv_disp_get_scr_act(NULL));
     lv_label_set_text(loading_label, "Conectando...");
-    lv_obj_align(loading_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_align(loading_label, LV_ALIGN_CENTER, 0, 20);
     
     lv_obj_t *spinner = lv_spinner_create(lv_disp_get_scr_act(NULL), 1000, 60);
-    lv_obj_set_size(spinner, 40, 40);
-    lv_obj_align(spinner, LV_ALIGN_CENTER, 0, 20);
+    lv_obj_set_size(spinner, 14, 14);
+    lv_obj_align(spinner, LV_ALIGN_CENTER, 0, 35);
     
     lvgl_port_unlock();
 }
