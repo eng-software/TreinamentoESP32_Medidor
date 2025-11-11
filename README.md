@@ -10,7 +10,7 @@ e com /api/data, conseguimos ver o valor de json gerado:
 
 Implementação da logo no momento em que está conectando o wifi:
 
-![alt text](conectnado.png)
+![alt text](conectando.png)
 
 Conexão Wifi, HTTP e Spiffs:
 
