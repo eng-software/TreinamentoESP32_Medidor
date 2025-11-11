@@ -8,8 +8,8 @@ extern "C" {
 #endif
 
 
-#define WIFI_SSID      "Fatec-P2-Terreo"
-#define WIFI_PASSWORD  "FatecJdi!"
+#define WIFI_SSID      "Nice 2.4G"
+#define WIFI_PASSWORD  "bolinho12"
 #define HTTP_SERVER_URL "http://192.168.56.1/api/data"
 
 /**
