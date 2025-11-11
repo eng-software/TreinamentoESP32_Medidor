@@ -10,7 +10,7 @@ extern "C" {
 
 #define WIFI_SSID      "Nice 2.4G"
 #define WIFI_PASSWORD  "bolinho12"
-#define HTTP_SERVER_URL "http://192.168.56.1/api/data"
+//#define HTTP_SERVER_URL "http://192.168.56.1/api/data" //endpoint (ip)/api/data
 
 /**
  * @brief Tenta conectar ao Wi-Fi com um timeout.
@@ -27,7 +27,8 @@ bool wifi_connect(int timeout_ms);
  * @param temperature Valor da temperatura.
  * @return true se o envio for bem-sucedido, false caso contrário.
  */
-bool http_post_data(float pressure, float temperature);
+ 
+// bool http_post_data(float pressure, float temperature);
 
 #ifdef __cplusplus
 }

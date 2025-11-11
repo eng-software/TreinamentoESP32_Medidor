@@ -10,8 +10,8 @@ extern "C" {
     #include "nvs_flash.h"
     #include "lwip/err.h"
     #include "lwip/sys.h"
-    #include "esp_http_client.h"
-    #include "cJSON.h"
+    //#include "esp_http_client.h"
+    //#include "cJSON.h"
 }
 
 #include "wifi_http.h"
@@ -110,7 +110,7 @@ bool wifi_connect(int timeout_ms)
     }
 }
 
-// ===== EVENTOS DO HTTP =====
+/**  ===== EVENTOS DO HTTP =====
 esp_err_t _http_event_handler(esp_http_client_event_t *evt)
 {
     switch (evt->event_id) {
@@ -175,4 +175,4 @@ bool http_post_data(float pressure, float temperature)
     free(post_data);
     esp_http_client_cleanup(client);
     return success;
-}
+}*/
