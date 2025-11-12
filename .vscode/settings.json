@@ -1,8 +1,8 @@
 {
   "C_Cpp.intelliSenseEngine": "default",
-  "idf.espIdfPathWin": "C:\\Users\\mende\\esp\\v5.4.3\\esp-idf",
-  "idf.toolsPathWin": "C:\\Users\\mende\\.espressif",
-  "idf.pythonInstallPath": "C:\\Users\\mende\\.espressif\\tools\\idf-python\\3.11.2\\python.exe",
+  "idf.espIdfPathWin": "C:/Espressif/frameworks/esp-idf-v5.4.1/",
+  "idf.toolsPathWin": "C:\\Espressif",
+  "idf.pythonInstallPath": "C:\\Espressif\\tools\\idf-python\\3.11.2\\python.exe",
   "idf.flashType": "UART",
   "idf.portWin": "COM3",
   "idf.customExtraVars": {

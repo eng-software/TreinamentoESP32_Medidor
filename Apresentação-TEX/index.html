@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Medidor de Pressão - Início</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <div class="nav">
+        <div class="brand">
+            <div class="logo">MP</div>
+        </div>
+        <div class="menu">
+            <a href="index.html" class="active">Início</a> 
+            <a href="introducao.html">Introdução</a> 
+            <a href="componentes.html">Componentes</a> 
+            <a href="metodologia.html">Metodologia</a> 
+            <a href="conclusao.html">Conclusão</a>
+            <a href="Sobre_nos.html">Sobre Nós</a>
+            <a href="compre.html">Comprar</a>
+            <a href="github.html">Github</a>
+
+
+        </div>
+    </div>
+    <div class="card">
+        <h1>Medidor de Pressão de Pneus</h1>
+        <p class="lead">Dispositivo portátil baseado em ESP32 para aferição de pressão dos pneus, com exibição em OLED e opções de PSI/BAR.</p>
+        <p>Este site reúne: introdução ao problema, componentes utilizados, metodologia (incluindo calibração) e conclusão com custos estimados.</p>
+        
+        <div style="display:flex;gap:5px;margin-top:14px;flex-wrap:wrap;">
+            <button class="badge" onclick="window.location.href='introducao.html'">Ler Introdução</button>
+            <button class="badge" onclick="window.location.href='componentes.html'">Ver Componentes</button>
+            <button class="badge" onclick="window.location.href='metodologia.html'">Ver Metodologia</button>
+            <button class="badge" onclick="window.location.href='conclusao.html'">Ver Conclusão</button>
+            <button class="badge" onclick="window.location.href='Sobre_nos.html'">Sobre Nós</button>
+            <button class="badge" onclick="window.location.href='compre.html'">Comprar</button>
+            <button class="badge" onclick="window.location.href='Github.html'">Github</button>                                 
+        </div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+        <h2>Resumo rápido</h2>
+        <p class="lead">O projeto visa desenvolver um Medidor Digital de Pressão de Pneus utilizando um ESP32 TTGO para garantir confiabilidade e baixo custo. A pressão correta é vital para a segurança veicular, pois otimiza a frenagem e a aderência, além de reduzir o desgaste dos pneus e o consumo de combustível. O uso do ESP32 é estratégico, oferecendo poder de processamento para leituras precisas do sensor de pressão e potencial conectividade (Wi-Fi/Bluetooth) para futuras integrações ou monitoramento sem fio. O foco está na calibração precisa e na apresentação clara dos dados, criando uma ferramenta de manutenção essencial e economicamente viável.</p>
+        <div class="figure">
+            <img src="img/pneu.png" alt="Ilustração de pneu">
+            <figcaption style="color:var(--muted)">Ilustração do pneu e ponto de medição.</figcaption>
+        </div>
+    </div>
+
+    <footer class="footer">Projeto integrador Tex</footer>
+</div>
+
+</body>
+</html>
