@@ -1,5 +1,12 @@
  # Treinamento: Medidor de pressão com Sensor SMP3011, display OLED SSD1306 com ESP32 usando ESP-IDF 5.4.2 e LVGL
 
+## Pré-requisitos:
+### Software
+- Visual Studio Code
+- ESP-IDF 5.3.0 (instalado e configurado)
+- Python 3.9+
+- Ambiente de desenvolvimento **https://www.youtube.com/watch?v=1u9h4_O1yQg**
+
 ## Sensor SMP3011  
 
 O **SMP3011** é um **sensor de pressão** que se comunica via protocolo **I²C**.  
