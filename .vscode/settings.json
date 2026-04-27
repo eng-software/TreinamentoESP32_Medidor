@@ -1,10 +1,10 @@
 {
   "C_Cpp.intelliSenseEngine": "default",
-  "idf.espIdfPathWin": "c:\\ESP-IDF\\v5.3\\esp-idf",
-  "idf.toolsPathWin": "c:\\EspressifVS",
-  "idf.pythonInstallPath": "c:\\EspressifVS\\tools\\idf-python\\3.11.2\\python.exe",
+  "idf.espIdfPathWin": "C:/Espressif/frameworks/esp-idf-v5.4.1/",
+  "idf.toolsPathWin": "C:\\Espressif",
+  "idf.pythonInstallPath": "C:\\Espressif\\tools\\idf-python\\3.11.2\\python.exe",
   "idf.flashType": "UART",
-  "idf.portWin": "COM6",
+  "idf.portWin": "COM3",
   "idf.customExtraVars": {
     "OPENOCD_SCRIPTS": "C:\\Users\\henrique.coser\\.espressif\\tools\\openocd-esp32\\v0.12.0-esp32-20230921/openocd-esp32/share/openocd/scripts",
     "IDF_CCACHE_ENABLE": "1",
@@ -15,6 +15,7 @@
     "i2c_master.h": "c",
     "i2c.h": "c",
     "esp_lvgl_port.h": "c",
-    "cstdlib": "c"
+    "cstdlib": "c",
+    "displayssd1306.h": "c"
   }
 }

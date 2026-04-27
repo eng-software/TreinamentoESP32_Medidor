@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Medidor de Pressão - Dados</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .gauge {
+            width: 200px;
+            height: 200px;
+            margin: 10px auto;
+            border-radius: 50%;
+            border: 10px solid var(--accent);
+            position: relative;
+            text-align: center;
+        }
+
+        .gauge-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--textColor);
+        }
+
+        .gauge-label {
+            margin-top: 10px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .metric-card {
+            background: var(--card);
+            padding: 15px;
+            border-radius: var(--radius);
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent2);
+        }
+
+        .metric-label {
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        .MenuVoltar:hover {
+            background: #fff;
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="nav">
+            <div class="brand">
+                <div class="logo">MP</div>
+                <p>PROTÓTIPO DA INTERFACE VISUAL DO APLICATIVO</p>
+            </div>
+            <div class="menu">
+                <a class="MenuVoltar" href="conclusao.html">Voltar</a>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Monitoramento em Tempo Real</h2>
+            <p class="lead">Visualize as medições atuais e o histórico de pressão dos pneus.</p>
+
+            <div class="data-grid">
+                <div class="metric-card">
+                    <div class="gauge">
+                        <div class="gauge-value" id="psiValue">32.5 PSI</div>
+                    </div>
+                    <div class="gauge-label">Pressão Atual (PSI)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="gauge">
+                        <div class="gauge-value" id="barValue">2.24 BAR</div>
+                    </div>
+                    <div class="gauge-label">Pressão Atual (BAR)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Histórico de Medições</h2>
+            <canvas id="pressureChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h2>Últimas Medições</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Data/Hora</th>
+                        <th>PSI</th>
+                        <th>BAR</th>
+                        <th>Temperatura</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="measurementTable">
+                    <tr>
+                        <td>09/11/2025 14:30</td>
+                        <td>32.5</td>
+                        <td>2.24</td>
+                        <td>25°C</td>
+                        <td style="color: var(--accent2)">Normal</td>
+                    </tr>
+                    <tr>
+                        <td>09/11/2025 14:15</td>
+                        <td>32.3</td>
+                        <td>2.23</td>
+                        <td>25°C</td>
+                        <td style="color: var(--accent2)">Normal</td>
+                    </tr>
+                    <tr>
+                        <td>09/11/2025 14:00</td>
+                        <td>31.8</td>
+                        <td>2.19</td>
+                        <td>24°C</td>
+                        <td style="color: var(--accent2)">Normal</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Estatísticas</h2>
+            <div class="data-grid">
+                <div class="metric-card">
+                    <div class="metric-value">32.5 PSI</div>
+                    <div class="metric-label">Média do Dia</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">33.1 PSI</div>
+                    <div class="metric-label">Máxima do Dia</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">31.8 PSI</div>
+                    <div class="metric-label">Mínima do Dia</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">24.5°C</div>
+                    <div class="metric-label">Temperatura Média</div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">Projeto integrador Tex</footer>
+    </div>
+
+    <script>
+        // Configuração do gráfico de histórico
+        const ctx = document.getElementById('pressureChart').getContext('2d');
+        const pressureChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['14:00', '14:15', '14:30', '14:45', '15:00', '15:15', '15:30'],
+                datasets: [{
+                    label: 'PSI',
+                    data: [31.8, 32.3, 32.5, 32.4, 32.6, 32.5, 32.4],
+                    borderColor: '#2563eb',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#ffffff'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: {
+                            color: '#444242'
+                        },
+                        ticks: {
+                            color: '#ffffff'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: '#444242'
+                        },
+                        ticks: {
+                            color: '#ffffff'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Simulação de atualização em tempo real
+        setInterval(() => {
+            const psiValue = (Math.random() * (33 - 32) + 32).toFixed(1);
+            const barValue = (psiValue * 0.0689476).toFixed(2);
+
+            document.getElementById('psiValue').textContent = `${psiValue} PSI`;
+            document.getElementById('barValue').textContent = `${barValue} BAR`;
+        }, 3000);
+    </script>
+
+</body>
+
+</html>

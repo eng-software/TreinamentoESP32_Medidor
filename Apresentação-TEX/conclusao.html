@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Conclusão</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="nav">
+            <div class="brand">
+                <div class="logo">MP</div>
+            </div>
+            <div class="menu">
+                <a href="index.html">Início</a>
+                <a href="introducao.html">Introdução</a>
+                <a href="componentes.html">Componentes</a>
+                <a href="metodologia.html">Metodologia</a>
+                <a href="conclusao.html" class="active">Conclusão</a>
+                <a href="Sobre_nos.html">Sobre Nós</a>
+                <a href="compre.html">Comprar</a>
+                <a href="github.html">Github</a>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Conclusão</h2>
+            <p class="lead">O desenvolvimento do medidor de pressão de pneus foi conduzido integralmente pela equipe,
+                abrangendo as etapas de concepção, montagem do protótipo e implementação do sistema de medição e
+                comunicação. Durante o processo, destacaram-se como principais desafios a configuração da comunicação HTTP e a hospedagem do sistema no módulo ESP32, exigindo ajustes e testes sucessivos até a obtenção de
+                um desempenho satisfatório. A execução deste projeto possibilitou a consolidação de conhecimentos em
+                sistemas embarcados, protocolos de rede e integração de sensores, culminando em um protótipo funcional
+                e tecnicamente consistente, com potencial para futuras melhorias (integração com sistema bluetooth) e aplicações práticas.</p>
+
+            <h3>Resumo de custos</h3>
+            <table class="table">
+                <tr>
+                    <th>Item</th>
+                    <th>Valor (R$)</th>
+                </tr>
+                <tr>
+                    <td>Componentes eletrônicos</td>
+                    <td>245,00</td>
+                </tr>
+                <tr>
+                    <td>Materiais adicionais (carcaça, cabos)</td>
+                    <td>40,00</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Total estimado do produto</strong></td>
+                    <td><strong>285,00</strong></td>
+                </tr>
+            </table>
+            <h3 style="margin-top:14px">Apresentação do protótipo</h3>
+            <p class="lead" style="align-items: center; justify-content: center; width: 100%; display: flex;">
+                Versão inicial do protótipo, com case desenvolvida em PLA.
+            </p>
+            <div class="slider">
+                <div class="slides">
+                    <img src="img/ProjetoFinalizado.jpg" alt="" style="border-radius: 10px;">
+                    <img src="img/ProjetoFinalizado1.jpg" alt="">
+                    <img src="img/ProjetoFinalizado2.jpg" alt="">
+                    <img src="img/ProjetoFinalizado3.jpg" alt="">
+                    <img src="img/ProjetoFinalizado4.jpg" alt="">
+                    <img src="img/ProjetoFinalizado5.jpg" alt="">
+                </div>
+            </div>
+
+            <h3 style="margin-top:14px">Próximos passos</h3>
+            <p class="lead">
+                Pretendemos, para as próximas etapas de desenvolvimento, realizar:
+            </p>
+            <ul>
+                <li><a href="dados.html" id="link-alerta" style="color: aliceblue;">Integração com aplicativo móvel para registro e alertas. (comunicação bluetooth / wifi)</a></li>
+                <li>Testes de campo e calibração cruzada com diversos manômetros.</li>
+                <li>Alterações no invólucro 3D (extensão do bico de medição, entrada USB e etc)</li>
+            </ul>
+        </div>
+
+        <footer class="footer">Projeto integrador Tex</footer>
+    </div>
+    <script>
+        let index = 0;
+        const slides = document.querySelector(".slides");
+        const total = slides.children.length;
+
+        setInterval(() => {
+            index = (index + 1) % total;
+            slides.style.transform = `translateX(-${index * 100}%)`;
+        }, 3000);
+    </script>
+</body>
+
+</html>

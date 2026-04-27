@@ -1,2 +1,27 @@
-idf_component_register(SRCS "main.c"
-                    INCLUDE_DIRS ".")
+idf_component_register(
+    SRCS 
+        "CGlobalResources.cpp" 
+        "CI2C.cpp" 
+        "cSMP3011.cpp" 
+        "displaySSD1306.c" 
+        "main.cpp"
+        "wifi_http.cpp"
+        "http_server.cpp"
+    INCLUDE_DIRS 
+        "."
+    REQUIRES 
+          esp_wifi
+            esp_event
+            nvs_flash
+            esp_http_client
+            esp_http_server
+            cjson
+            lwip
+            esp_system
+            freertos
+            driver
+            esp_lcd
+            esp_lvgl_port
+            fatfs
+            spiffs
+)
