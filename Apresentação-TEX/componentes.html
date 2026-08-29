@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Componentes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <div class="brand">
+                <div class="logo">MP</div>
+            </div>
+            <div class="menu">
+                <a href="index.html">Início</a> 
+                <a href="introducao.html">Introdução</a> 
+                <a href="componentes.html" class="active">Componentes</a> 
+                <a href="metodologia.html">Metodologia</a> 
+                <a href="conclusao.html">Conclusão</a>
+                <a href="Sobre_nos.html">Sobre Nós</a>
+                <a href="compre.html">Comprar</a>
+                <a href="github.html">Github</a>
+
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Componentes principais</h2>
+            <p class="lead">Lista dos principais componentes usados no protótipo e custos estimados (referência na apresentação do projeto).</p>
+            <table class="table">
+                <tr><th>Componente</th><th>Descrição</th><th>Custo (R$)</th></tr>
+                <tr><td>BMP280</td><td>Sensor de pressão/temperatura</td><td>25,00</td></tr>
+                <tr><td>SMP3011</td><td>Sensor de pressão robusto</td><td>120,00</td></tr>
+                <tr><td>ESP32 TTGO</td><td>Placa com OLED e bateria</td><td>100,00</td></tr>
+                <tr><td>Jumper</td><td>Conexão dos sensores e dispositivos</td><td>20,00</td></tr>
+            </table>
+            <p style="margin-top:12px"><strong>Total estimado de componentes: R$ 265,00</strong></p>
+            
+            <div style="display:flex; gap:12px;flex-wrap:wrap;margin-top:12px;">
+                <div style="flex:1;text-align:center;   padding: 20px; border-radius: var(--radius); box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06); margin-top: 18px; background: #fff;">
+                    <img src="img/bmp280.png" alt="BMP280" style="max-width:220px">
+                    <figcaption style="color: #000">BMP280 — sensor usado para comparação.</figcaption>
+                </div>
+                <div style="flex:1;text-align:center;   padding: 20px; border-radius: var(--radius); box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06); margin-top: 18px; background: #fff;">
+                    <img src="img/smp3011.png" alt="SMP3011" style="max-width:220px">
+                    <figcaption style="color: #000">SMP3011 — sensor robusto.</figcaption>
+                </div>
+            </div>
+                <div style="display:flex; gap:12px;flex-wrap:wrap;margin-top:12px;">
+                    <div style="flex:1;text-align:center;   padding: 20px; border-radius: var(--radius); box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06); margin-top: 18px; background: #fff;">
+                        <img src="img/esp32.png" alt="esp32" style="max-width:220px">
+                        <figcaption style="color: #000">ESP32 - microcontrolador com OLED.</figcaption>
+                    </div>
+                    <div style="flex:1;text-align:center;   padding: 20px; border-radius: var(--radius); box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06); margin-top: 18px; background: #fff;">
+                        <img src="img/jumper.webp" alt="jumper" style="max-width:220px">
+                        <figcaption style="color: #000">Jumper fêmea/fêmea.</figcaption>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        
+    <footer class="footer">Projeto integrador Tex</footer>
+    </div>
+</body>
+</html>

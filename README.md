@@ -1,4 +1,6 @@
- # Treinamento: Medidor de pressão com Sensor SMP3011, display OLED SSD1306 com ESP32 usando ESP-IDF 5.4.2 e LVGL
+ MODIFICANDO
+
+![alt text](funcionamento.png)
 
 ## Pré-requisitos:
 ### Software
@@ -9,45 +11,19 @@
 
 ## Sensor SMP3011  
 
-O **SMP3011** é um **sensor de pressão** que se comunica via protocolo **I²C**.  
+O prototipo do projeto está quase no final, agora ele está conseguindo integrar com o site a partir do http e o spiffs que é responsavel por amarmazear os arquivos, 
+dentro do http_server.cpp ele pega os valores gerados pelo o sensor e já integra no site.
 
-### 🔑 Características principais  
-- Leitura de temperatura e pressão
-- Conversor Analógico-Digital (**ADC**) de **24 bits** para **pressão**  
-- Conversor Analógico-Digital (**ADC**) de **16 bits** para **temperatura**  
+![alt text](aplicação.png)
 
----
+e com /api/data, conseguimos ver o valor de json gerado:
 
-## Display SSD1306
+![alt text](json.png)
 
-O **SSD1306** é um **display OLED** que se comunica via protocolo **I²C**.  
+Implementação da logo no momento em que está conectando o wifi:
 
-### 🔑 Características principais  
-- Monocromático
-- Resolução (LxA) 128x64
+![alt text](conectando.png)
 
+Conexão Wifi, HTTP e Spiffs:
 
-## Hardware  e conexões com ESP32
-  
-O sensor de pressão e o display OLED estão ligados em portas I2C diferentes do ESP32.
-* Porta I2C0:
-  - SDA: 5
-  - SCL: 4
-  - Frequencia: 400KHz
-  - Conectado ao display SSD1306
-
-* Porta I2C1:
-  - SDA: 33
-  - SCL: 32
-  - Frequencia: 400KHz
-  - Conectado ao SMP3011
-
-
-## Software
-
-Software escrito em C em um único arquivo usando o ESP-IDF 5.4.2.  
-Utilizada a IDE do VSCode  
-O objetivo é demosntrar o processo de inicialização dos periféricos e exibir no display a leitura de tempreatura e pressão.  
-Para escrever no display, foi utilizada a biblioteca LVGL , que facilita a criação de desenhos no display
-
-
+![alt text](integração.png)
